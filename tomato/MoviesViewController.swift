@@ -12,9 +12,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var errorLabel: UILabel!
+    var refresh: UIRefreshControl!
     
     let sources: [String] = ["movies/box_office", "dvds/new_releases"]
-    let tabImages: [String] = ["iconmonstr-video-icon-16", "iconmonstr-disc-14-icon-16"]
+    let tabImages: [String] = ["tab-boxoffice", "tab-dvd"]
     var movies: [NSDictionary] = []
     
     override func viewDidLoad() {
@@ -24,16 +26,14 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.delegate = self
         tableView.dataSource = self
         
+        //Add pull to refresh
+        refresh = UIRefreshControl()
+        refresh.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refresh, atIndex: 0)
+        
         tabBarItem!.selectedImage = UIImage(named: tabImages[tabBarController!.selectedIndex])
         loadingIndicator.startAnimating()
-
-        let source = sources[tabBarController!.selectedIndex]
-        let url = "http://api.rottentomatoes.com/api/public/v1.0/lists/\(source).json?apikey=np4pvukhemwjzckp7geyk7k8"
-        let request = NSURLRequest(URL: NSURL(string: url))
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) {(response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-            let obj = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
-            self.movies = obj["movies"] as [NSDictionary]
-            self.tableView.reloadData()
+        loadData() {
             self.loadingIndicator.stopAnimating()
         }
     }
@@ -52,8 +52,15 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let movie = movies[indexPath.row]
         cell.titleLabel.text = movie["title"] as? String
         cell.synopsisLabel.text = movie["synopsis"] as? String
+        
         let posters = movie["posters"] as NSDictionary
-        cell.posterView.setImageWithURL(NSURL(string: posters["thumbnail"] as String))
+        let posterRequest = NSURLRequest(URL: NSURL(string: posters["thumbnail"] as String))
+        cell.posterView.setImageWithURLRequest(posterRequest, placeholderImage: UIImage(named: "poster-placeholder"),
+            success: { (request: NSURLRequest!, response: NSHTTPURLResponse!, image: UIImage!) -> Void in
+                cell.posterView.image = image
+            }, failure: nil
+        )
+        
         return cell
     }
     
@@ -62,6 +69,31 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             let selectedPath = tableView.indexPathForSelectedRow()!
             (segue.destinationViewController as MovieDetailsViewController).movie = movies[selectedPath.row]
             tableView.deselectRowAtIndexPath(selectedPath, animated: false)
+        }
+    }
+    
+    func loadData(onComplete: () -> Void) {
+        let source = sources[tabBarController!.selectedIndex]
+        let url = "http://api.rottentomatoes.com/api/public/v1.0/lists/\(source).json?apikey=np4pvukhemwjzckp7geyk7k8"
+        let request = NSURLRequest(URL: NSURL(string: url))
+        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) {(response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+            if (error == nil) {
+                let obj = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
+                self.movies = obj["movies"] as [NSDictionary]
+                println("Loaded \(self.movies.count) movies")
+                self.tableView.reloadData()
+            } else {
+                self.errorLabel.text = "Error loading content"
+                self.errorLabel.hidden = false
+            }
+            onComplete()
+        }
+    }
+    
+    func onRefresh() {
+        self.errorLabel.hidden = true
+        loadData() {
+            self.refresh.endRefreshing()
         }
     }
     
