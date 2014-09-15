@@ -99,7 +99,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <view alpha="0.65000000000000002" contentMode="scaleToFill" id="Emm-IR-Edu">
+                                    <view alpha="0.75000000000000011" contentMode="scaleToFill" id="Emm-IR-Edu">
                                         <rect key="frame" x="0.0" y="161" width="320" height="407"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
@@ -302,6 +302,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="QdX-Rb-yng"/>
+        <segue reference="nXe-6x-8qd"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -51,9 +51,10 @@ class MovieDetailsViewController: UIViewController {
         
         titleLabel.text = movie["title"] as? String
         synopsisLabel.text = movie["synopsis"] as? String
+        synopsisLabel.sizeToFit()
         ratingLabel.text = "Rated \(rating)"
         runtimeLabel.text = "\(runtime) min"
-        scroll.contentSize = CGSizeMake(detailsView.frame.size.width, detailsView.frame.size.height + 210)
+        scroll.contentSize = CGSizeMake(detailsView.frame.size.width, detailsView.frame.size.height + 240)
     }
 
     override func didReceiveMemoryWarning() {
