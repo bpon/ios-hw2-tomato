@@ -11,6 +11,7 @@ import UIKit
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     let sources: [String] = ["movies/box_office", "dvds/new_releases"]
     let tabImages: [String] = ["iconmonstr-video-icon-16", "iconmonstr-disc-14-icon-16"]
@@ -24,6 +25,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.dataSource = self
         
         tabBarItem!.selectedImage = UIImage(named: tabImages[tabBarController!.selectedIndex])
+        loadingIndicator.startAnimating()
 
         let source = sources[tabBarController!.selectedIndex]
         let url = "http://api.rottentomatoes.com/api/public/v1.0/lists/\(source).json?apikey=np4pvukhemwjzckp7geyk7k8"
@@ -32,6 +34,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             let obj = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as NSDictionary
             self.movies = obj["movies"] as [NSDictionary]
             self.tableView.reloadData()
+            self.loadingIndicator.stopAnimating()
         }
     }
 

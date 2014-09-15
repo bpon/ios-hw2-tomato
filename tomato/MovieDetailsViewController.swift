@@ -11,6 +11,7 @@ import UIKit
 class MovieDetailsViewController: UIViewController {
 
     @IBOutlet weak var posterView: UIImageView!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     var movie: NSDictionary!
     
@@ -18,9 +19,11 @@ class MovieDetailsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        loadingIndicator.startAnimating()
         let posters = movie["posters"] as NSDictionary
         let posterUrl = (posters["original"] as NSString).stringByReplacingOccurrencesOfString("_tmb", withString: "_ori")
         posterView.setImageWithURL(NSURL(string: posterUrl))
+        loadingIndicator.stopAnimating()
     }
 
     override func didReceiveMemoryWarning() {

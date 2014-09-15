@@ -53,11 +53,16 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" id="T8X-P1-WTH">
+                                <rect key="frame" x="150" y="274" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="xFQ-HG-Oro"/>
                     <connections>
+                        <outlet property="loadingIndicator" destination="T8X-P1-WTH" id="1hM-Db-gEt"/>
                         <outlet property="tableView" destination="VOU-s8-W85" id="W0X-xo-m0L"/>
                     </connections>
                 </viewController>
@@ -77,11 +82,16 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" id="q6Y-Mq-wtr">
+                                <rect key="frame" x="150" y="274" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="ICX-mW-JTO"/>
                     <connections>
+                        <outlet property="loadingIndicator" destination="q6Y-Mq-wtr" id="Z6Y-d4-jOz"/>
                         <outlet property="posterView" destination="BuK-9m-BBk" id="zNg-V1-9ut"/>
                     </connections>
                 </viewController>
@@ -138,11 +148,16 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" id="bt9-lr-6Mw">
+                                <rect key="frame" x="150" y="274" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="MTq-gD-NMC"/>
                     <connections>
+                        <outlet property="loadingIndicator" destination="bt9-lr-6Mw" id="tkn-yP-zRA"/>
                         <outlet property="tableView" destination="e4f-k6-O4f" id="H7x-2N-O2X"/>
                     </connections>
                 </viewController>
@@ -218,6 +233,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="QdX-Rb-yng"/>
+        <segue reference="nXe-6x-8qd"/>
     </inferredMetricsTieBreakers>
 </document>
